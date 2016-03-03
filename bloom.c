@@ -20,14 +20,22 @@
 #define GET_WORD(f, i) ((f)->bits[(i)>>BLOOM_SHIFT])
 #define MOD_WORD(i) ((i) & (WORD - 1))
 
-bool is_set(Filter *f, const uint64_t i) {
+static bool is_set(Filter *f, const uint64_t i);
+static void set(Filter *f, const uint64_t i);
+static void hash(const char* key, const size_t key_len, uint64_t *restrict a, uint64_t *restrict b);
+
+static bool is_set(Filter *f, const uint64_t i) {
 	return ((GET_WORD(f, i) >> MOD_WORD(i)) & 1) != 0;
 }
 
-void set(Filter *f, const uint64_t i) {
+static void set(Filter *f, const uint64_t i) {
 	GET_WORD(f, i) |= (uint64_t)(1) << MOD_WORD(i);
 }
 
+// new_filter creates a new Filter, initialized to hold up to
+// n elements with p false-positive probability.
+// p should be a float64_t (aka double) between 0 and 1
+// indicating the false-positive rate.
 Filter* new_filter(const int64_t n, const float64_t p) {
 
 	// log(1 / pow(2, log(2)))
@@ -70,6 +78,7 @@ Filter* new_filter(const int64_t n, const float64_t p) {
 	return f;
 }
 
+// free_filter frees f.
 void free_filter(Filter *f) {
 	if (f != NULL) {
 		free(f->bits);
@@ -86,7 +95,7 @@ static uint8_t out[BUFFER_LENGTH] = { 0 };
 
 // hash hashes key using siphash and places both halves of the
 // 128-bit return value inside a and b.
-void hash(const char* key, const size_t key_len, uint64_t *restrict a, uint64_t *restrict b) {
+static void hash(const char* key, const size_t key_len, uint64_t *restrict a, uint64_t *restrict b) {
 
 	// Need to be uint8_t* for siphash's API...
 	siphash(out, (const uint8_t *)(key), (const uint64_t)(key_len), hash_key);

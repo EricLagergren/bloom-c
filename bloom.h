@@ -13,13 +13,11 @@ typedef struct {
 } Filter;
 
 
+
 Filter* new_filter(const int64_t n, const float64_t p);
-bool is_set(Filter *f, const uint64_t i);
-void set(Filter *f, const uint64_t i);
 void free_filter(Filter *f);
 void add(Filter *f, const char* key, const size_t key_len);
 bool has(Filter *f, const char* key, const size_t key_len);
-void hash(const char* key, const size_t key_len, uint64_t *restrict a, uint64_t *restrict b);
 
 // Siphash
 
