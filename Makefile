@@ -6,7 +6,7 @@ BIN=main
 all: $(BIN)
 
 main: $(SRC)
-	$(CC) $(CFLAGS) $^ -o $@ -DDOUBLE -DBLOOM_DEBUG -lm
+	$(CC) $(CFLAGS) $^ -o $@ -DDOUBLE -lm
 
 .PHONY: main
 

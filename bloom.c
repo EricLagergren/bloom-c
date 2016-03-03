@@ -3,10 +3,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-#ifdef BLOOM_DEBUG
-# include <stdio.h>
-#endif
-
 #include "bloom.h"
 #include "stdfloat.h"
 
