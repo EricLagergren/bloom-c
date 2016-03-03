@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Werror
+CFLAGS=-Wall -Werror -Wextra -pedantic -O3
 SRC=main.c bloom.c SipHash/siphash24.c
 BIN=main
 
