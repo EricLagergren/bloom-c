@@ -20,6 +20,9 @@
 #define GET_WORD(f, i) ((f)->bits[(i)>>BLOOM_SHIFT])
 #define MOD_WORD(i) ((i) & (WORD - 1))
 
+// Siphash
+extern int siphash(uint8_t *out, const uint8_t *in, uint64_t inlen, const uint8_t *k);
+
 static bool is_set(Filter *f, const uint64_t i);
 static void set(Filter *f, const uint64_t i);
 static void hash(const char* key, const size_t key_len, uint64_t *restrict a, uint64_t *restrict b);
